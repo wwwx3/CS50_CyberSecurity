@@ -77,7 +77,7 @@ Attack example:
 ' OR '1'='1
 ```
 
-This causes authentication bypass.
+This causes authentication bypass. Because logically 1 = 1 that makes the input "true" in any case.
 
 #### Prevention:
 
