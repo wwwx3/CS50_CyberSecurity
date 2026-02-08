@@ -122,6 +122,7 @@ number=4242424242424242
 ```
 
 Any intermediary can read or modify this data.
+
 (Note: q= and number= may contain more sensitive data) 
 
 ### Mitigation
@@ -165,6 +166,7 @@ Injected JavaScript executes **inside the trust context of a website**.
 ### What they are
 
 Session cookies act as **bearer tokens** that identify an authenticated user.
+
 (Note: Here the cookie id is after session=)
 
 ```http
