@@ -137,6 +137,7 @@ Any intermediary can read or modify this data.
 ### Attack: Cross-Site Scripting (XSS)
 
 Injected JavaScript executes **inside the trust context of a website**.
+
 (Note: In this case, the injected script contains an ad.) 
 
 ```html
