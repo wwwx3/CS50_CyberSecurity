@@ -70,6 +70,9 @@ Example vulnerable query:
 ```sql
 SELECT * FROM users WHERE username = '{username}' AND password = '{password}';
 ```
+*Code Explaination : User login -> Hit enter -> Use Python/PHP/Java -> Construct query -> Search database to 
+
+                     find matches*
 
 Attack example:
 
