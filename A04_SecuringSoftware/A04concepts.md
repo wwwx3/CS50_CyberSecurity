@@ -70,17 +70,23 @@ Example vulnerable query:
 ```sql
 SELECT * FROM users WHERE username = '{username}' AND password = '{password}';
 ```
-*Code Explaination : User login -> Hit enter -> Use Python/PHP/Java -> Construct query -> Search database to 
-
-                     find matches*
+>Code Explaination : User login -> Hit enter -> Use Python/PHP/Java -> Construct query -> Search database to find matches
 
 Attack example:
 
+All users would be discarded.
+
 ```sql
-' OR '1'='1
+'malan'; DELETE FROM users; - -'
 ```
 
-This causes authentication bypass. Because logically 1 = 1 that makes the input "true" in any case.
+Reveal passwords periodically.
+
+```sql
+'{username}' AND password ='{password}'
+'malan'      AND password =''OR'1'='1'
+```
+>This causes authentication bypass. Because logically 1 = 1 that makes the input "true" in any case.
 
 #### Prevention:
 
