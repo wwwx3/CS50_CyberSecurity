@@ -86,6 +86,7 @@ This causes authentication bypass. Because logically 1 = 1 that makes the input 
 ```sql
 SELECT * FROM users WHERE username = ? AND password = ?;
 ```
+-> Because ' ' means the end of the input function , we prepare the whole set of ' ' instead of ' for the users preventing them from bypass the intended ' '.
 
 ---
 
