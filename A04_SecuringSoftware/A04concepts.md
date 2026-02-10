@@ -96,7 +96,7 @@ Reveal passwords periodically.
 SELECT * FROM users WHERE username = ? AND password = ?;
 ```
 -> Because ' ' means the end of the input function , we prepare the whole set of ' ' instead of ' for the users ,preventing them from bypass the intended ' '.
-We could even replace the placeholder ('{username}' etc.) with a symbol instead which is called Prepared statement syntax (? instead) 
+We could even replace the placeholder ('{username}' etc.) with a symbol instead which is called Prepared statement syntax (?) instead.
 
 ---
 
