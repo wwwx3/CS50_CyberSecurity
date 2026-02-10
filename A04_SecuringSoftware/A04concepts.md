@@ -130,9 +130,12 @@ Auto-submitted malicious form:
 
 ```html
 <form action="https://example.com/buy" method="post">
-  <input type="hidden" name="item" value="123">
+  <input name="dp" type="hidden" value="B07XLQFSK">
+  <button type="submit">Buy Now</button>
 </form>
-<script>document.forms[0].submit();</script>
+<script>
+document.forms[0].submit();
+</script>
 ```
 -> This leads to automatically submitting a form.
 
@@ -141,8 +144,13 @@ Auto-submitted malicious form:
 * CSRF tokens (random per request)
 
 ```html
-<input type="hidden" name="csrf_token" value="random123">
+<form action="https://example.com/buy" method="post">
+  <input name="csrf_token" type="hidden" value="1234abcd">
+  <input name="dp" type="hidden" value="B07XLQFSK">
+  <button type="submit">Buy Now</button>
+</form>
 ```
+-> The random value for this form is "1234abcd" (CSRF) 
 
 * Or CSRF tokens via HTTP headers
 
