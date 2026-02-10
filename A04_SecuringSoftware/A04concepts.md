@@ -2,50 +2,223 @@
 
 ## Overview
 
-This section documents my understanding of **system security vulnerabilities**, focusing on **web-based attacks**, **local system attacks**, and **defensive design principles**.
+This section documents my understanding of **software and web security vulnerabilities**, focusing on:
 
-The goal is to understand:
+- how web technologies are abused
+- why attacks succeed
+- how defensive design reduces risk
 
-* how systems are compromised
-* why attacks work
-* how defensive mechanisms reduce risk
+The emphasis is on **attack mechanics**, not just definitions.
 
-This work aligns with **OWASP**, **NIST**, and real-world secure system design.
+---
+
+## Core Security Lens
+
+```
+
+Input → Interpretation → Execution → Impact → Mitigation
+
+````
+
+Most web vulnerabilities occur when **untrusted input is interpreted as trusted code or actions**.
 
 ---
 
 ## Web Technologies & Security Implications
 
-### HTML — Structure of a Webpage
+### HTML — Structure, Not Behavior
 
-HTML defines the **structure** of a webpage using tags.
+HTML defines the **structure and presentation** of a webpage, not its intent or safety.
 
 Example:
 
 ```html
 <a href="https://example.com">Click here</a>
+````
+
+### Security Implication: Phishing
+
+* Users see **visible text**
+* Browsers follow the **actual URL**
+
+An attacker can exploit this mismatch:
+
+```html
+<a href="https://evil.com">https://bank.com</a>
 ```
 
-### Phishing Risk
-
-The visible text may appear legitimate, while the actual URL redirects users to a malicious site.
-
-➡️ Users trust appearance, not destination.
+➡️ **Trust in appearance, not destination**
 
 ---
 
-##  Web-Based Attacks
+## HTTP Methods & Security Semantics
+
+### GET Requests
+
+* Parameters appear in the URL
+* Easily logged, cached, bookmarked
+* Intended for **retrieving data**
+* ❌ Not suitable for sensitive actions
+
+Example:
+
+```http
+GET /search?q=<script>alert(1)</script> HTTP/1.1
+```
+
+---
+
+### POST Requests
+
+* Parameters sent in request body
+* Not visible in URL
+* Intended for **state-changing actions**
+
+Example:
+
+```http
+POST /comment HTTP/1.1
+
+message=<script>alert(1)</script>
+```
+
+⚠️ **POST improves privacy and semantics, not security**
+JavaScript can still submit POST requests automatically.
+
+---
+
+## Web-Based Attacks
 
 ### 1️⃣ Cross-Site Scripting (XSS)
 
-XSS occurs when attackers inject **JavaScript** into a webpage that executes in a user’s browser.
+#### What it is
 
-#### Types:
+XSS occurs when **attacker-controlled JavaScript** is executed in a victim’s browser under a trusted origin.
 
-* **Reflected XSS**
-  Malicious input is reflected immediately in a response (e.g., search results).
-* **Stored XSS**
-  Malicious script is stored on the server and executed whenever users visit the page.
+#### Why it works
+
+* Application fails to sanitize or encode user input
+* Browser trusts content from the site
+
+---
+
+### Types of XSS
+
+#### Reflected XSS
+
+Malicious input is reflected immediately in a server response.
+
+Example (via GET):
+
+```http
+GET /search?q=<script>alert(1)</script>
+```
+
+If the server reflects `q` directly into HTML:
+
+```html
+<script>alert(1)</script>
+```
+
+➡️ Script executes instantly.
+
+---
+
+#### Stored XSS
+
+Malicious input is stored on the server and executed later.
+
+Example (via POST):
+
+```http
+POST /comment
+comment=<script>stealCookies()</script>
+```
+
+Every user who loads the comment triggers the script.
+
+---
+
+#### Impact
+
+* Session hijacking
+* Credential theft
+* DOM manipulation
+* Unauthorized actions on behalf of users
+
+---
+
+#### Mitigation
+
+* Output encoding
+* Input validation
+* Content Security Policy (CSP)
+* HttpOnly cookies
+
+---
+
+### 2️⃣ Cross-Site Request Forgery (CSRF)
+
+#### What it is
+
+CSRF tricks a user’s browser into sending **authenticated requests** without user intent.
+
+#### Why it works
+
+* Browsers automatically attach cookies
+* Server does not verify request intent
+
+---
+
+#### Example (POST does NOT prevent this)
+
+```html
+<form action="https://bank.com/transfer" method="POST">
+  <input type="hidden" name="amount" value="1000">
+  <input type="hidden" name="to" value="attacker">
+</form>
+
+<script>
+  document.forms[0].submit();
+</script>
+```
+
+User does nothing.
+Browser sends cookies.
+Server trusts request.
+
+---
+
+#### Impact
+
+* Unauthorized transactions
+* Account changes
+* Data manipulation
+
+---
+
+#### Mitigation
+
+* CSRF tokens
+* SameSite cookies
+* Origin / Referer validation
+
+---
+
+## Key Takeaways
+
+* **GET vs POST is about intent, not trust**
+* **Client-side controls are not security**
+* **Browsers are powerful and dangerous when trusted blindly**
+* **Most attacks exploit implicit trust assumptions**
+
+---
+
+## Final Principle
+
+> Security fails when **input is trusted**, **intent is assumed**, or **execution is implicit**.
+
+---
 
 #### Prevention:
 
