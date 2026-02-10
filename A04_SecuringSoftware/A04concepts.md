@@ -134,6 +134,7 @@ Auto-submitted malicious form:
 </form>
 <script>document.forms[0].submit();</script>
 ```
+-> This leads to automatically submitting a form.
 
 ### Prevention:
 
