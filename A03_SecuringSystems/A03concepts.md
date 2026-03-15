@@ -138,7 +138,7 @@ Any intermediary can read or modify this data.
 
 Injected JavaScript executes **inside the trust context of a website**.
 
-(Note: In this case, the injected script contains an ad.) 
+(Note: In this case, the injected script contains an advertisement.) 
 
 ```html
 <script src="ad.js"></script>
