@@ -79,7 +79,7 @@ Input + Salt → Hash Function → Hash Output
 ### SHA-3 Family (Newer Standard)
 
 * SHA3-224
-* SHA3-256
+* SHA3-256 (commonly used ; werkzeug.security [SHA3-256->Salt->iterations->hashed] )
 * SHA3-384
 * SHA3-512
 
