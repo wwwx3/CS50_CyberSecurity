@@ -70,7 +70,7 @@ Input + Salt → Hash Function → Hash Output
 ### SHA-2 Family
 
 * SHA-224
-* SHA-256
+* SHA-256 (commonly used ; werkzeug.security that uses PBKDF2= [SHA-256 (via HMAC)repeatedly ->! Random Salt->iterations->hashed] )
 * SHA-384
 * SHA-512
 * SHA-512/224
@@ -79,7 +79,7 @@ Input + Salt → Hash Function → Hash Output
 ### SHA-3 Family (Newer Standard)
 
 * SHA3-224
-* SHA3-256 (commonly used ; werkzeug.security [SHA3-256->Salt->iterations->hashed] )
+* SHA3-256
 * SHA3-384
 * SHA3-512
 
